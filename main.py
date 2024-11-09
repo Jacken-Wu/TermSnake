@@ -1,9 +1,12 @@
 from src.world import World
+from src.db import DB
 import time
 import curses
 
 
 def main(stdscr):
+    DB.init_table()
+
     stdscr.clear()
     stdscr.nodelay(True)
     curses.curs_set(0)

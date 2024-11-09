@@ -1,4 +1,6 @@
 import random
+import time
+from src.db import DB
 
 
 class World:
@@ -83,8 +85,20 @@ class World:
         return self.__score
 
     def draw_game_over(self, stdscr):
-        stdscr.addstr(self.__height // 2 + 3, self.__width - 10, "┌" + "─" * 28 + "┐")
-        stdscr.addstr(self.__height // 2 + 4, self.__width - 10, "│" + " " * 28 + "│")
-        stdscr.addstr(self.__height // 2 + 5, self.__width - 10, "│" + " Game Over!".center(28) + "│")
-        stdscr.addstr(self.__height // 2 + 6, self.__width - 10, "│" + " " * 28 + "│")
-        stdscr.addstr(self.__height // 2 + 7, self.__width - 10, "└" + "─" * 28 + "┘")
+        records = DB.get_first3()
+        while len(records) < 3:
+            records.append((0, ' '))
+
+        stdscr.addstr(self.__height // 2 + 1, self.__width - 10, "┌" + "─" * 28 + "┐")
+        stdscr.addstr(self.__height // 2 + 2, self.__width - 10, "│" + " " * 28 + "│")
+        stdscr.addstr(self.__height // 2 + 3, self.__width - 10, "│" + "Game Over!".center(28) + "│")
+        stdscr.addstr(self.__height // 2 + 4, self.__width - 10, "│" + f"Your Score: {self.get_score()}".center(28) + "│")
+        stdscr.addstr(self.__height // 2 + 5, self.__width - 10, "│" + "Highest Records:".center(28) + "│")
+        stdscr.addstr(self.__height // 2 + 6, self.__width - 10, "│" + f"{records[0][0]} {records[0][1]}".center(28) + "│")
+        stdscr.addstr(self.__height // 2 + 7, self.__width - 10, "│" + f"{records[1][0]} {records[1][1]}".center(28) + "│")
+        stdscr.addstr(self.__height // 2 + 8, self.__width - 10, "│" + f"{records[2][0]} {records[2][1]}".center(28) + "│")
+        stdscr.addstr(self.__height // 2 + 9, self.__width - 10, "│" + " " * 28 + "│")
+        stdscr.addstr(self.__height // 2 + 10, self.__width - 10, "└" + "─" * 28 + "┘")
+
+        local_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+        DB.insert_data(self.get_score(), local_time)
