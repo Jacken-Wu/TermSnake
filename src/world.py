@@ -71,11 +71,11 @@ class World:
         self.__direction = direction
 
     def draw_frame(self, stdscr):
-        stdscr.addstr(4, 4, "┌" + "-" * self.__width * 2 + "┐")
+        stdscr.addstr(4, 4, "┌" + "─" * self.__width * 2 + "┐")
         for i in range(self.__height):
             stdscr.addstr(5 + i, 4, "│")
             stdscr.addstr(5 + i, 5 + self.__width * 2, "│")
-        stdscr.addstr(self.__height + 5, 4, "└" + "-" * self.__width * 2 + "┘")
+        stdscr.addstr(self.__height + 5, 4, "└" + "─" * self.__width * 2 + "┘")
         stdscr.addstr(self.__height + 6, 4, "Use arrow keys to control the snake. Press 'q' to quit.".center(self.__width * 2 + 2))
 
     def draw_score(self, stdscr):
